@@ -1,7 +1,7 @@
 <?php
 require('bootstrap.php');
 session_start();
-$dev = false;
+$dev = true;
 
 if (array_key_exists('user',$_SESSION) && isset($_SESSION['user'])) {
 	$user = $entityManager->find(User::class, $_SESSION['user']);
@@ -70,16 +70,18 @@ switch ($action) {
 		$_SESSION['user'] = null;
 		header("Location: index.php");
 		break;
-		case 'dashboard':
+	case 'dashboard':
+		$club = $entityManager->getRepository('Club')->findOneBy(['supervisor' =>
+			$entityManager->find('User', $user)]);
 		echo $twig->render('dashboard.twig', [
 			'title' => 'Dashboard',
-			'user' => $user
+			'user' => $user,
+			'club' => $club
 		]);
 		break;
 	case 'list_supervisors':
 		$userRepo = $entityManager->getRepository('User');
 		$supervisors = $userRepo->getSupervisors();
-		if ($dev) var_dump($supervisors);
 		echo $twig->render('list_supervisors.twig', [
 			'title' => 'Supervisors',
 			'supervisors' => $supervisors,
@@ -88,7 +90,6 @@ switch ($action) {
 	case 'list_clubs':
 		$clubRepo = $entityManager->getRepository('Club');
 		$clubs = $clubRepo->findAll();
-		if ($dev) var_dump($clubs);
 		echo $twig->render('list_clubs.twig', [
 			'title' => 'Clubs',
 			'clubs' => $clubs,

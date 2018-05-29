@@ -2,7 +2,11 @@
 
 {% block body %}
 <h1> Hello, {{ user.name }} {{ user.surname }}.</h1>
-<h2> {{user.role.name }} dashboard.</h2>
+<h2> {{ user.role.name }}
+	{% if club %}
+	of {{ club.name|lower }}
+	{% endif %}
+dashboard.</h2>
 <ul>
 	<li><a href="index.php?action=logout">Log out</a></li>
 	{% if user.role.name == 'Admin' %}
@@ -12,10 +16,14 @@
 		<li><a href="index.php?action=supervisor_form">Add supervisor</a></li>
 	{% endif %}
 	{% if user.role.name == 'Supervisor' %}
-		<li><a href="index.php?action=list_activities">List activities</a></li>
-		<li><a href="index.php?action=list_members">List members</a></li>
-		<li><a href="index.php?action=add_activity">Add activity</a></li>
-		<li><a href="index.php?action=add_member">Add member</a></li>
+		{% if club %}
+			<li><a href="index.php?action=list_activities">List activities</a></li>
+			<li><a href="index.php?action=list_members">List members</a></li>
+			<li><a href="index.php?action=add_activity">Add activity</a></li>
+			<li><a href="index.php?action=add_member">Add member</a></li>
+		{% else %}
+			<li>You aren't asigned to a club.</li>
+		{% endif %}
 	{% endif %}
 </ul>
 
