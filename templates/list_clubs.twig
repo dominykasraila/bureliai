@@ -11,7 +11,7 @@
 	</tr>
 	{% for club in clubs %}
 	<tr>
-		<td>{{ club.name }}</td>
+		<td><a href="index.php?action=club_form&id={{club.id}}"</a>{{ club.name }}</a></td>
 		<td>{{ club.supervisor.username }}</td>
 		<td>{{ club.supervisor.name }}</td>
 		<td>{{ club.supervisor.surname }}</td>

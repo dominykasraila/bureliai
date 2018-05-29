@@ -1,7 +1,4 @@
 <?php
-function redirect() {
-
-}
 require('bootstrap.php');
 session_start();
 $dev = false;
@@ -105,7 +102,7 @@ switch ($action) {
 			$supervisor = null;
 			$title = 'Add supervisor';
 		}
-		echo $twig->render('supervisor_edit.twig', [
+		echo $twig->render('supervisor_form.twig', [
 			'title' => 'Edit supervisor',
 			'supervisor' => $supervisor,
 		]);
@@ -127,6 +124,37 @@ switch ($action) {
 			$entityManager->persist($supervisor);
 			$entityManager->flush();
 			header('Location: index.php?action=list_supervisors');
+		} else {
+			header('Location: index.php');
+		}
+		break;
+	case 'club_form':
+		if(!empty($_GET) && array_key_exists('id', $_GET)) {
+			$club = $entityManager->find('Club', $_GET['id']);
+			$title = 'Edit club';
+		} else {
+			$club = null;
+			$title = 'Add club';
+		}
+		echo $twig->render('club_form.twig', [
+			'title' => 'Edit club',
+			'club' => $club,
+		]);
+		break;
+	case 'club_form_submit':
+		if (!empty($_POST)) {
+			if(array_key_exists('id', $_POST)) {
+				$club = $entityManager->find('Club', $_POST['id']);
+			} else {
+				$club = new Club();
+			}
+			$club->setName($_POST['name'])
+				->setSupervisor(
+					$entityManager->getRepository('User')->findOneBy(['username' => $_POST['username']])
+				);
+			$entityManager->persist($club);
+			$entityManager->flush();
+			header('Location: index.php?action=list_clubs');
 		} else {
 			header('Location: index.php');
 		}
