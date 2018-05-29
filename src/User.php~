@@ -1,5 +1,5 @@
 <?php
-/** @Entity */
+/** @Entity(repositoryClass="BugRepository") */
 class User {
 	/**
 	 * @Id @GeneratedValue @Column(type="integer")
@@ -16,9 +16,9 @@ class User {
  	 */
  	private $password;
 
- 	/**
- 	 * @ManyToOne(targetEntity="Role")
- 	 */
+  /**
+	 * @Column(type="string", length=50)
+	 */
 	private $name;
 
 	/**
@@ -112,5 +112,53 @@ class User {
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set username.
+     *
+     * @param string $username
+     *
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username.
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set password.
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password.
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 }
