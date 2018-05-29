@@ -4,7 +4,7 @@ function redirect() {
 }
 require('bootstrap.php');
 session_start();
-$dev = true;
+$dev = false;
 
 if (array_key_exists('user',$_SESSION) && isset($_SESSION['user'])) {
 	$user = $entityManager->find(User::class, $_SESSION['user']);
@@ -27,7 +27,9 @@ if (array_key_exists('action',$_POST)) {
 
 $permissions = [
 	'list_clubs' => 'Admin',
-	'list_supervisors' => 'Admin'
+	'list_supervisors' => 'Admin',
+	'supervisor_form' => 'Admin',
+	'supervisor_form_submit' => 'Admin',
 ];
 if (in_array($action, $permissions)) {
 	$userRepo = $entityManager->getRepository('User');
@@ -94,6 +96,40 @@ switch ($action) {
 			'title' => 'Clubs',
 			'clubs' => $clubs,
 		]);
+		break;
+	case 'supervisor_form':
+		if(!empty($_GET) && array_key_exists('id', $_GET)) {
+			$supervisor = $entityManager->find('User', $_GET['id']);
+			$title = 'Edit supervisor';
+		} else {
+			$supervisor = null;
+			$title = 'Add supervisor';
+		}
+		echo $twig->render('supervisor_edit.twig', [
+			'title' => 'Edit supervisor',
+			'supervisor' => $supervisor,
+		]);
+		break;
+	case 'supervisor_form_submit':
+		if (!empty($_POST)) {
+			if(array_key_exists('id', $_POST)) {
+				$supervisor = $entityManager->find('User', $_POST['id']);
+			} else {
+				$supervisor = new User();
+			}
+			$supervisor->setUsername($_POST['username'])
+				->setPassword($_POST['password'])
+				->setName($_POST['name'])
+				->setSurname($_POST['surname'])
+				->setRole(
+					$entityManager->getRepository('Role')->findOneBy(['name' => 'Supervisor'])
+				);
+			$entityManager->persist($supervisor);
+			$entityManager->flush();
+			header('Location: index.php?action=list_supervisors');
+		} else {
+			header('Location: index.php');
+		}
 		break;
 	case 'forbid':
 		echo $twig->render('error.twig', [

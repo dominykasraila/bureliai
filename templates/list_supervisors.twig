@@ -10,7 +10,9 @@
 	</tr>
 	{% for supervisor in supervisors %}
 	<tr>
-		<td>{{ supervisor.username }}</td>
+		<td>
+			<a href="index.php?action=supervisor_form&id={{ supervisor.id}}">{{ supervisor.username }}</a>
+		</td>
 		<td>{{ supervisor.name }}</td>
 		<td>{{ supervisor.surname }}</td>
 	</tr>
