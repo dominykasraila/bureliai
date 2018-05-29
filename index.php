@@ -27,6 +27,14 @@ $permissions = [
 	'list_supervisors' => 'Admin',
 	'supervisor_form' => 'Admin',
 	'supervisor_form_submit' => 'Admin',
+	'activity_form' => 'Admin',
+	'activity_form_submit' => 'Admin',
+	'list_members' => 'Supervisor',
+	'list_activities' => 'Supervisor',
+	'member_form' => 'Supervisor',
+	'member_form_submit' => 'Supervisor',
+	'activity_form' => 'Supervisor',
+	'activity_form_submit' => 'Supervisor',
 ];
 if (in_array($action, $permissions)) {
 	$userRepo = $entityManager->getRepository('User');
@@ -156,6 +164,36 @@ switch ($action) {
 			$entityManager->persist($club);
 			$entityManager->flush();
 			header('Location: index.php?action=list_clubs');
+		} else {
+			header('Location: index.php');
+		}
+		break;
+	case 'activity_form':
+		if(!empty($_GET) && array_key_exists('id', $_GET)) {
+			$activity = $entityManager->find('Activity', $_GET['id']);
+			$title = 'Edit activity';
+		} else {
+			$activity = null;
+			$title = 'Add activity';
+		}
+		echo $twig->render('activity_form.twig', [
+			'title' => 'Edit activity',
+			'activity' => $activity,
+		]);
+		break;
+	case 'activity_form_submit':
+		if (!empty($_POST)) {
+			if(array_key_exists('id', $_POST)) {
+				$activity = $entityManager->find('activity', $_POST['id']);
+			} else {
+				$activity = new activity();
+			}
+			$activity->setName($_POST['name'])
+				->setDescription($_POST['description'])
+				->setDatetime($_POST['datetime']);
+			$entityManager->persist($activity);
+			$entityManager->flush();
+			header('Location: index.php?action=list_activitys');
 		} else {
 			header('Location: index.php');
 		}
