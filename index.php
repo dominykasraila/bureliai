@@ -189,7 +189,7 @@ switch ($action) {
 				$activity = new activity();
 			}
 			$activity->setDescription($_POST['description'])
-				->setDate($_POST['date']);
+				->setDate(new DateTime($_POST['date']));
 			$entityManager->persist($activity);
 			$entityManager->flush();
 			header('Location: index.php?action=list_activities');
