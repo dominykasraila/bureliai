@@ -1,0 +1,18 @@
+<?php
+/** @Entity */
+class Club {
+	/**
+	 * @Id @GeneratedValue @Column(type="integer")
+	 */
+	private $id;
+
+	/**
+	 * @Column(type="string", length=50)
+	 */
+	private $name;
+
+	/**
+	 * @OneToOne(targetEntity="User")
+	 */
+	private $supervisor;
+}

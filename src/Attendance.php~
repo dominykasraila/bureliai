@@ -1,0 +1,18 @@
+<?php
+/** @Entity */
+class Attendance {
+	/**
+	 * @Id @GeneratedValue @Column(type="integer")
+	 */
+	private $id;
+
+	/**
+	 * @ManyToOne(targetEntity="Activity")
+	 */
+	private $activity;
+
+	/**
+	 * @ManyToOne(targetEntity="Member")
+	 */
+	private $member;
+}

@@ -1,0 +1,23 @@
+<?php
+/** @Entity */
+class Activity {
+	/**
+	 * @Id @GeneratedValue @Column(type="integer")
+	 */
+	private $id;
+
+	/**
+	 * @Column(type="datetime")
+	 */
+	private $datetime;
+
+	/**
+	 * @Column(type="string", length=50)
+	 */
+	private $description;
+
+	/**
+	 * @ManyToOne(targetEntity="Club")
+	 */
+	private $club;
+}

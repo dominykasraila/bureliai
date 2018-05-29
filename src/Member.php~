@@ -1,0 +1,23 @@
+<?php
+/** @Entity */
+class Member {
+	/**
+	* @GeneratedValue @Id @Column(type="id")
+	*/
+	private $id;
+
+	/**
+	* @Column(type="string", length=50)
+	*/
+	private $name;
+
+	/**
+	* @Column(type="string", length=50)
+	*/
+	private $surname;
+
+	/**
+	 * @ManyToOne(targetEntity="Club")
+	 */
+	private $club;
+}
