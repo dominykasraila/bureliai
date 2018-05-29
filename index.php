@@ -65,7 +65,7 @@ switch ($action) {
         $userRepo = $entityManager->getRepository('User');
         $userHasPermision = (bool) $userRepo->authorizeAs($_SESSION['user'], 'Admin');
         if ($userHasPermision) {
-            $supervisors = $userRepo->getUsersWithRole('Supervisor');
+            $supervisors = $userRepo->getSupervisors();
             if ($dev) var_dump($supervisors);
             echo $twig->render('list_supervisors.twig', [
                 'title' => 'Supervisors',

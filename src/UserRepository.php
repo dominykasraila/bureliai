@@ -22,12 +22,20 @@ class UserRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
 
-	public function getUsersWithRole($role_name)
+	public function getSupervisors()
     {
-        $dql = "SELECT u FROM User u JOIN u.role r WHERE r.name = :role_name";
+        $dql = "SELECT u FROM User u JOIN u.role r WHERE r.name = 'Supervisor'";
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('role_name', $role_name);
         return $query->getResult();
+    }
+
+    public function getSupervisor($supervisor_username)
+    {
+        $dql = "SELECT u FROM User u JOIN u.role r WHERE u.username = :supervisor_username AND r.name = 'Supervisor'";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('superviso_name', $supervisor_username);
+        return $query->getOneOrNullResult();
     }
 }

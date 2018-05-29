@@ -2,7 +2,7 @@
 /** @Entity */
 class Member {
 	/**
-	* @GeneratedValue @Id @Column(type="id")
+	* @GeneratedValue @Id @Column(type="integer")
 	*/
 	private $id;
 
