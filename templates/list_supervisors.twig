@@ -1,0 +1,19 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<a href="index.php?action=dashboard">Back to the dashboard</a>
+<table>
+	<tr>
+		<th>Username</th>
+		<th>Name</th>
+		<th>Surname</th>
+	</tr>
+	{% for supervisor in supervisors %}
+	<tr>
+		<td>{{ supervisor.username }}</td>
+		<td>{{ supervisor.name }}</td>
+		<td>{{ supervisor.surname }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

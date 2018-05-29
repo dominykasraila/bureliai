@@ -62,6 +62,20 @@ switch ($action) {
         ]);
         break;
     case 'list_supervisors':
-        // check for permission
-        //
+        $userRepo = $entityManager->getRepository('User');
+        $userHasPermision = (bool) $userRepo->authorizeAs($_SESSION['user'], 'Admin');
+        if ($userHasPermision) {
+            $supervisors = $userRepo->getUsersWithRole('Supervisor');
+            if ($dev) var_dump($supervisors);
+            echo $twig->render('list_supervisors.twig', [
+                'title' => 'Supervisors',
+                'supervisors' => $supervisors,
+                'user' => $user
+            ]);
+        } else {
+            echo $twig->render('error.twig', [
+                'error_short' => "You don't have permission for that.",
+                'error_long' => "Go back to index."
+            ]);
+        }
 }

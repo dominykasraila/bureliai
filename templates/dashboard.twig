@@ -4,19 +4,19 @@
 <h1> Hello, {{ user.name }} {{ user.surname }}.</h1>
 <h2> {{user.role.name }} dashboard</h2>
 <ul>
+	<li><a href="index.php?action=logout">Log out</a></li>
 	{% if user.role.name == 'Admin' %}
-		<li><a>List clubs</a></li>
-		<li><a>List supervisors</a></li>
-		<li><a>Add club</a></li>
-		<li><a>Add supervisor</a></li>
+		<li><a href="index.php?action=list_clubs">List clubs</a></li>
+		<li><a href="index.php?action=list_supervisors">List supervisors</a></li>
+		<li><a href="index.php?action=add_club">Add club</a></li>
+		<li><a href="index.php?action=add_supervisor">Add supervisor</a></li>
 	{% endif %}
 	{% if user.role.name == 'Supervisor' %}
-		<li><a>List activities</a></li>
-		<li><a>List members</a></li>
-		<li><a>Add activity</a></li>
-		<li><a>Add member</a></li>
+		<li><a href="index.php?action=list_activities">List activities</a></li>
+		<li><a href="index.php?action=list_members">List members</a></li>
+		<li><a href="index.php?action=add_activity">Add activity</a></li>
+		<li><a href="index.php?action=add_member">Add member</a></li>
 	{% endif %}
 </ul>
 
-<a href="index.php?action=logout">Log out</a>
 {% endblock %}
