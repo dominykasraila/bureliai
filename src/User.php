@@ -16,9 +16,9 @@ class User {
  	 */
  	private $password;
 
- 	/**
- 	 * @ManyToOne(targetEntity="Role")
- 	 */
+  /**
+	 * @Column(type="string", length=50)
+	 */
 	private $name;
 
 	/**
