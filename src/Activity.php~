@@ -7,9 +7,9 @@ class Activity {
 	private $id;
 
 	/**
-	 * @Column(type="datetime")
+	 * @Column(type="date")
 	 */
-	private $datetime;
+	private $date;
 
 	/**
 	 * @Column(type="string", length=50)

@@ -7,9 +7,9 @@ class Activity {
 	private $id;
 
 	/**
-	 * @Column(type="datetime")
+	 * @Column(type="date")
 	 */
-	private $datetime;
+	private $date;
 
 	/**
 	 * @Column(type="string", length=50)
@@ -101,5 +101,29 @@ class Activity {
     public function getClub()
     {
         return $this->club;
+    }
+
+    /**
+     * Set date.
+     *
+     * @param \DateTime $date
+     *
+     * @return Activity
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date.
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

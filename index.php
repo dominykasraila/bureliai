@@ -188,12 +188,11 @@ switch ($action) {
 			} else {
 				$activity = new activity();
 			}
-			$activity->setName($_POST['name'])
-				->setDescription($_POST['description'])
-				->setDatetime($_POST['datetime']);
+			$activity->setDescription($_POST['description'])
+				->setDate($_POST['date']);
 			$entityManager->persist($activity);
 			$entityManager->flush();
-			header('Location: index.php?action=list_activitys');
+			header('Location: index.php?action=list_activities');
 		} else {
 			header('Location: index.php');
 		}

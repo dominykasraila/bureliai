@@ -7,14 +7,11 @@
 	<input type="hidden" name="id" value="{{ activity.id }}">
 	{% endif %}
 
-	<label for="name">Name</label><br>
-	<input type="text" name="name" id="name" value="{{ activity.name }}"><br>
-
 	<label for="description">Description</label><br>
-	<input type="text" name="username" id="username" value="{{ activity.description }}"><br>
+	<input type="text" name="description" id="description" value="{{ activity.description }}"><br>
 
-	<label for="datetime">Date and time</label><br>
-	<input type="datetime-local" name="datetime" id="datetime" value="{{ activity.datetime }}"><br>
+	<label for="date">Date</label><br>
+	<input type="date" name="date" id="date" value="{{ activity.date }}"><br>
 
 	<input type="hidden" name="action" value="activity_form_submit">
 
