@@ -1,7 +1,7 @@
 <?php
 require('bootstrap.php');
 session_start();
-var_dump([$_POST, $_GET], $_SESSION);
+
 if (array_key_exists('user',$_SESSION) && isset($_SESSION['user'])) {
     $user = $entityManager->find(User::class, $_SESSION['user']);
 
@@ -20,7 +20,7 @@ if (array_key_exists('action',$_POST)) {
 } else if (array_key_exists('action',$_GET)) {
     $action = $_GET['action'];
 }
-
+var_dump($_POST, $_GET, $_SESSION, $action);
 switch ($action) {
     case 'login':
         echo $twig->render('login.twig', [
@@ -57,4 +57,7 @@ switch ($action) {
             'user' => $user
         ]);
         break;
+    case 'list_supervisors':
+        // check for permission
+        //
 }
