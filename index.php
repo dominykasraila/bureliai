@@ -1,6 +1,7 @@
 <?php
 require('bootstrap.php');
 session_start();
+$dev = true;
 
 if (array_key_exists('user',$_SESSION) && isset($_SESSION['user'])) {
     $user = $entityManager->find(User::class, $_SESSION['user']);
@@ -20,11 +21,14 @@ if (array_key_exists('action',$_POST)) {
 } else if (array_key_exists('action',$_GET)) {
     $action = $_GET['action'];
 }
-var_dump($_POST, $_GET, $_SESSION, $action);
+if ($dev) var_dump($_POST, $_GET, $_SESSION, $action);
 switch ($action) {
     case 'login':
+
+        $users = $dev ? $entityManager->getRepository('User')->findAll() : null;
         echo $twig->render('login.twig', [
-            'title' => 'Login'
+            'title' => 'Login',
+            'users' => $users
         ]);
         break;
     case 'authenticate':

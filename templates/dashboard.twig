@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1> Hello, {{ user.name }} {{ user.surname }}.</h1>
-<h2> {{user.role.name }} panel</h2>
+<h2> {{user.role.name }} dashboard</h2>
 <ul>
 	{% if user.role.name == 'Admin' %}
 		<li><a>List clubs</a></li>
