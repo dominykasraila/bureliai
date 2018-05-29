@@ -1,9 +1,6 @@
 <?php
 function redirect() {
-	echo $twig->render('error.twig', [
-		'error_short' => "You don't have permission for that.",
-		'error_long' => "Go back to index."
-	]);
+
 }
 require('bootstrap.php');
 session_start();
@@ -27,7 +24,21 @@ if (array_key_exists('action',$_POST)) {
 } else if (array_key_exists('action',$_GET)) {
 	$action = $_GET['action'];
 }
+
+$permissions = [
+	'list_clubs' => 'Admin',
+	'list_supervisors' => 'Admin'
+];
+if (in_array($action, $permissions)) {
+	$userRepo = $entityManager->getRepository('User');
+	$userHasPermision = (bool) $userRepo->authorizeAs($_SESSION['user'], $permissions[$action]);
+	if (!$userHasPermision) {
+		$action = 'forbid';
+	}
+}
+
 if ($dev) var_dump($_POST, $_GET, $_SESSION, $action);
+
 switch ($action) {
 	case 'login':
 		$users = $dev ? $entityManager->getRepository('User')->findAll() : null;
@@ -68,34 +79,26 @@ switch ($action) {
 		break;
 	case 'list_supervisors':
 		$userRepo = $entityManager->getRepository('User');
-		$userHasPermision = (bool) $userRepo->authorizeAs($_SESSION['user'], 'Admin');
-		if ($userHasPermision) {
-			$supervisors = $userRepo->getSupervisors();
-			if ($dev) var_dump($supervisors);
-			echo $twig->render('list_supervisors.twig', [
-				'title' => 'Supervisors',
-				'supervisors' => $supervisors,
-			]);
-		} else {
-			echo $twig->render('error.twig', [
-				'error_short' => "You don't have permission for that.",
-				'error_long' => "Go back to index."
-			]);
-		}
+		$supervisors = $userRepo->getSupervisors();
+		if ($dev) var_dump($supervisors);
+		echo $twig->render('list_supervisors.twig', [
+			'title' => 'Supervisors',
+			'supervisors' => $supervisors,
+		]);
 		break;
 	case 'list_clubs':
-		$userRepo = $entityManager->getRepository('User');
-		$userHasPermision = (bool) $userRepo->authorizeAs($_SESSION['user'], 'Admin');
-		if ($userHasPermision) {
-			$clubRepo = $entityManager->getRepository('Club');
-			$clubs = $clubRepo->findAll();
-			if ($dev) var_dump($clubs);
-			echo $twig->render('list_clubs.twig', [
-				'title' => 'Clubs',
-				'clubs' => $clubs,
-			]);
-		} else {
-			redirect();
-		}
+		$clubRepo = $entityManager->getRepository('Club');
+		$clubs = $clubRepo->findAll();
+		if ($dev) var_dump($clubs);
+		echo $twig->render('list_clubs.twig', [
+			'title' => 'Clubs',
+			'clubs' => $clubs,
+		]);
+		break;
+	case 'forbid':
+		echo $twig->render('error.twig', [
+			'error_short' => "You don't have permission for that.",
+			'error_long' => "Go back to index."
+		]);
 		break;
 }
