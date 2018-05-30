@@ -16,6 +16,11 @@ class Attendance {
 	 */
 	private $member;
 
+	/**
+	 * @Column(type="smallint")
+	 */
+	private $hasAttended;
+
     /**
      * Get id.
      *

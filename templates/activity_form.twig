@@ -11,7 +11,7 @@
 	<input type="text" name="description" id="description" value="{{ activity.description }}"><br>
 
 	<label for="date">Date</label><br>
-	<input type="date" name="date" id="date" value="{{ activity.date }}"><br>
+	<input type="date" name="date" id="date" value="{{ activity.date|date("Y-m-d") }}"><br>
 
 	<input type="hidden" name="action" value="activity_form_submit">
 

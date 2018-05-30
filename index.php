@@ -103,6 +103,14 @@ switch ($action) {
 			'clubs' => $clubs,
 		]);
 		break;
+	case 'list_activities':
+		$activityRepo = $entityManager->getRepository('Activity');
+		$activities = $activityRepo->findAll();
+		echo $twig->render('list_activities.twig', [
+			'title' => 'Activities',
+			'activities' => $activities,
+		]);
+		break;
 	case 'supervisor_form':
 		if(!empty($_GET) && array_key_exists('id', $_GET)) {
 			$supervisor = $entityManager->find('User', $_GET['id']);
@@ -186,7 +194,7 @@ switch ($action) {
 			if(array_key_exists('id', $_POST)) {
 				$activity = $entityManager->find('activity', $_POST['id']);
 			} else {
-				$activity = new activity();
+				$activity = new Activity();
 			}
 			$activity->setDescription($_POST['description'])
 				->setDate(new DateTime($_POST['date']));
