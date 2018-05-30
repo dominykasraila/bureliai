@@ -1,0 +1,17 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<a href="index.php?action=dashboard">Back to the dashboard</a>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Surname</th>
+	</tr>
+	{% for member in members %}
+	<tr>
+		<td><a href="index.php?action=member_form&id={{member.id}}"</a>{{ member.name }}</a></td>
+		<td>{{ member.surname }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

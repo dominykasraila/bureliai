@@ -78,4 +78,28 @@ class Attendance {
     {
         return $this->member;
     }
+
+    /**
+     * Set hasAttended.
+     *
+     * @param int $hasAttended
+     *
+     * @return Attendance
+     */
+    public function setHasAttended($hasAttended)
+    {
+        $this->hasAttended = $hasAttended;
+
+        return $this;
+    }
+
+    /**
+     * Get hasAttended.
+     *
+     * @return int
+     */
+    public function getHasAttended()
+    {
+        return $this->hasAttended;
+    }
 }

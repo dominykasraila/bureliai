@@ -103,14 +103,31 @@ switch ($action) {
 			'clubs' => $clubs,
 		]);
 		break;
+
 	case 'list_activities':
-		$activityRepo = $entityManager->getRepository('Activity');
-		$activities = $activityRepo->findAll();
+		$dql = "SELECT a FROM Activity a JOIN a.club c JOIN c.supervisor s WHERE s.id = :supervisor_id";
+		$query = $entityManager->createQuery($dql);
+		$query->setParameter('supervisor_id', $user);
+		$activities = $query->getResult();
+
 		echo $twig->render('list_activities.twig', [
 			'title' => 'Activities',
 			'activities' => $activities,
 		]);
 		break;
+
+	case 'list_members':
+		$dql = "SELECT m FROM \Member m JOIN m.club c JOIN c.supervisor s WHERE s.id = :supervisor_id";
+		$query = $entityManager->createQuery($dql);
+		$query->setParameter('supervisor_id', $user);
+		$members = $query->getResult();
+
+		echo $twig->render('list_members.twig', [
+			'title' => 'Members',
+			'members' => $members,
+		]);
+		break;
+
 	case 'supervisor_form':
 		if(!empty($_GET) && array_key_exists('id', $_GET)) {
 			$supervisor = $entityManager->find('User', $_GET['id']);
@@ -124,6 +141,7 @@ switch ($action) {
 			'supervisor' => $supervisor,
 		]);
 		break;
+
 	case 'supervisor_form_submit':
 		if (!empty($_POST)) {
 			if(array_key_exists('id', $_POST)) {
@@ -145,6 +163,7 @@ switch ($action) {
 			header('Location: index.php');
 		}
 		break;
+
 	case 'club_form':
 		if(!empty($_GET) && array_key_exists('id', $_GET)) {
 			$club = $entityManager->find('Club', $_GET['id']);
@@ -177,6 +196,7 @@ switch ($action) {
 		}
 		break;
 	case 'activity_form':
+		$club = $entityManager->getRepository('Club')->getClubBySupervisor($user);
 		if(!empty($_GET) && array_key_exists('id', $_GET)) {
 			$activity = $entityManager->find('Activity', $_GET['id']);
 			$title = 'Edit activity';
@@ -187,6 +207,7 @@ switch ($action) {
 		echo $twig->render('activity_form.twig', [
 			'title' => 'Edit activity',
 			'activity' => $activity,
+			'club' => $club
 		]);
 		break;
 	case 'activity_form_submit':
@@ -197,10 +218,45 @@ switch ($action) {
 				$activity = new Activity();
 			}
 			$activity->setDescription($_POST['description'])
-				->setDate(new DateTime($_POST['date']));
+				->setDate(new DateTime($_POST['date']))
+				->setClub($entityManager->find('Club', $_POST['club_id']));
 			$entityManager->persist($activity);
 			$entityManager->flush();
 			header('Location: index.php?action=list_activities');
+		} else {
+			header('Location: index.php');
+		}
+		break;
+	case 'member_form':
+
+		if(!empty($_GET) && array_key_exists('id', $_GET)) {
+			$member = $entityManager->find('member', $_GET['id']);
+			$title = 'Edit member';
+			$club = $member->getClub();
+		} else {
+			$member = null;
+			$title = 'Add member';
+			$club = $entityManager->getRepository('Club')->getClubBySupervisor($user);
+		}
+		echo $twig->render('member_form.twig', [
+			'title' => $title,
+			'member' => $member,
+			'club' => $club
+		]);
+		break;
+	case 'member_form_submit':
+		if (!empty($_POST)) {
+			if(array_key_exists('id', $_POST)) {
+				$member = $entityManager->find('member', $_POST['id']);
+			} else {
+				$member = new Member();
+			}
+			$member->setName($_POST['name'])
+				->setSurname($_POST['surname'])
+				->setClub($entityManager->find('Club', $_POST['club_id']));
+			$entityManager->persist($member);
+			$entityManager->flush();
+			header('Location: index.php?action=list_members');
 		} else {
 			header('Location: index.php');
 		}

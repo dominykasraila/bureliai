@@ -1,5 +1,6 @@
 <?php
 /** @Entity */
+
 class Member {
 	/**
 	* @GeneratedValue @Id @Column(type="integer")

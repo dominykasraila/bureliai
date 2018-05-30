@@ -1,5 +1,5 @@
 <?php
-/** @Entity */
+/** @Entity(repositoryClass="ClubRepository") */
 class Club {
 	/**
 	 * @Id @GeneratedValue @Column(type="integer")

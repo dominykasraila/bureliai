@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<a href="index.php?action=dashboard">Back to the dashboard</a>
+<form action="index.php" method="post">
+	{% if member.id %}
+	<input type="hidden" name="id" value="{{ member.id }}">
+	{% endif %}
+
+	<label for="name">Name</label><br>
+	<input type="text" name="name" id="name" value="{{ member.name }}"><br>
+
+	<label for="surname">Surname</label><br>
+	<input type="text" name="surname" id="surname" value="{{ member.surname }}"><br>
+
+	<input type="hidden" name="club_id" value="{{ club.id }}">
+
+	<input type="hidden" name="action" value="member_form_submit">
+
+	<input type="submit" value="Submit">
+</form>
+
+{% endblock %}
